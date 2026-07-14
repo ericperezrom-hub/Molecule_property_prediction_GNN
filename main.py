@@ -5,12 +5,12 @@ from train import get_target_stats, train_one_epoch, validate
 from dataloader import get_dataloader
 from models.baseline import GCN
 
-def model_pipeline(config):
+def train_pipeline(config):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-    wandb.init(project="gnn-molecule-prediction", config=config)
+    run = wandb.init(project="gnn-molecule-prediction", config=config)
 
-    train_loader, val_loader, test_loader, train_data = get_dataloader(config)
+    train_loader, val_loader, _, train_data = get_dataloader(config)
     mean, std = get_target_stats(train_data, config['target_idx'])
 
     model = GCN(num_node_features=11, hidden_dim=config['hidden_dim']).to(device)
@@ -30,8 +30,16 @@ def model_pipeline(config):
         # But also if the improvement has been so small that is negligible
         # If that is the case, the training is stopped
         if best_val_loss - val_loss > config['min_delta']:
+<<<<<<< HEAD
             best_val_loss = val_loss
-            torch.save(model.state_dict(), 'best_model.pt')
+=======
+            model_path = f"best_model_{run.id}.pt"
+            torch.save({
+                'model_state_dict': model.state_dict(),
+                'mean': mean,
+                'std': std
+            }, model_path)
+>>>>>>> 5aedec9 (Separate logic between train and test)
             early_stopping_count = 0
         else: 
             early_stopping_count += 1
@@ -40,10 +48,6 @@ def model_pipeline(config):
 
         if early_stopping_count >= config['patience']:
             break
-
-    test_loss = validate(model, test_loader, criterion, device, mean, std, config['target_idx'])
-    print(f"Test loss: {test_loss:.4f}")
-    wandb.log({"test_loss": test_loss})
 
     wandb.finish()
 
@@ -55,4 +59,4 @@ if __name__ == "__main__":
         print(torch.cuda.current_device())
         print(torch.cuda.get_device_name(0))
  
-    model_pipeline(config)
+    train_pipeline(config)
