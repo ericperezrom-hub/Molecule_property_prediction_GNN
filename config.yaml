@@ -4,3 +4,5 @@ hidden_dim: 64
 batch_size: 64
 target_idx: 4
 seed: 0
+
+gpu_debug: False
