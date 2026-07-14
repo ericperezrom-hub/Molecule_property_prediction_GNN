@@ -30,16 +30,13 @@ def train_pipeline(config):
         # But also if the improvement has been so small that is negligible
         # If that is the case, the training is stopped
         if best_val_loss - val_loss > config['min_delta']:
-<<<<<<< HEAD
             best_val_loss = val_loss
-=======
             model_path = f"best_model_{run.id}.pt"
             torch.save({
                 'model_state_dict': model.state_dict(),
                 'mean': mean,
                 'std': std
             }, model_path)
->>>>>>> 5aedec9 (Separate logic between train and test)
             early_stopping_count = 0
         else: 
             early_stopping_count += 1
