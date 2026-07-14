@@ -1,0 +1,6 @@
+n_epochs: 50
+lr: 0.001
+hidden_dim: 64
+batch_size: 64
+target_idx: 4
+seed: 0
