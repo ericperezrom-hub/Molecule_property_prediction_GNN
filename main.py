@@ -1,4 +1,5 @@
 import torch
+import wandb
 from utils import load_config
 from train import get_target_stats, train_one_epoch, validate
 from dataloader import get_dataloader
@@ -6,6 +7,8 @@ from models.baseline import GCN
 
 def model_pipeline(config):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+    wandb.init(project="gnn-molecule-prediction", config=config)
 
     train_loader, val_loader, test_loader, train_data = get_dataloader(config)
     mean, std = get_target_stats(train_data, config['target_idx'])
@@ -20,6 +23,9 @@ def model_pipeline(config):
     for epoch in range(config['n_epochs']):
         train_loss = train_one_epoch(model, train_loader, optimizer, criterion, device, mean, std, config['target_idx'])
         val_loss = validate(model, val_loader, criterion, device, mean, std, config['target_idx'])
+
+        wandb.log({"epoch": epoch, "train_loss": train_loss, "val_loss": val_loss})
+
         # Early stopping checks if the model has not improved over some epochs (using the patience variable)
         # But also if the improvement has been so small that is negligible
         # If that is the case, the training is stopped
@@ -37,6 +43,9 @@ def model_pipeline(config):
 
     test_loss = validate(model, test_loader, criterion, device, mean, std, config['target_idx'])
     print(f"Test loss: {test_loss:.4f}")
+    wandb.log({"test_loss": test_loss})
+
+    wandb.finish()
 
 if __name__ == "__main__":
     config = load_config('config.yaml')
