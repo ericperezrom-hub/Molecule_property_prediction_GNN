@@ -8,6 +8,15 @@ def load_config(path):
     with open(path, "r") as f:
         return yaml.safe_load(f)
     
+def print_config(config):
+    for k, v in config.items():
+        print(f"{k}: {v}")
+
+def print_gpu_stats():
+    print(torch.cuda.is_available()) 
+    print(torch.cuda.current_device())
+    print(torch.cuda.get_device_name(0))
+    
 def get_git_commit_hash():
     # Saves which version of the code ran a experiment
     # A experiment can be run in that version using `git checkout <hash>`

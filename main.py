@@ -1,20 +1,27 @@
 import torch
 import wandb
-from utils import load_config, set_seed, get_git_commit_hash
+from utils import load_config, set_seed, get_git_commit_hash, print_config, print_gpu_stats
 from train import get_target_stats, train_one_epoch, validate
 from dataloader import get_dataloader
 from models.baseline import GCN
 
 def train_pipeline(config):
+    if config['config_debug']:
+        print_config(config)
+
     set_seed(config['seed'])
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+    if config['gpu_debug']:
+        print_gpu_stats()
 
     config['git_commit'] = get_git_commit_hash()
 
     run = wandb.init(project="gnn-molecule-prediction", config=config)
 
     train_loader, val_loader, _, train_data = get_dataloader(config)
+    
     mean, std = get_target_stats(train_data, config['target_idx'])
 
     model = GCN(num_node_features=11, hidden_dim=config['hidden_dim']).to(device)
@@ -55,10 +62,5 @@ def train_pipeline(config):
 
 if __name__ == "__main__":
     config = load_config('config.yaml')
-
-    if config['gpu_debug']:
-        print(torch.cuda.is_available()) 
-        print(torch.cuda.current_device())
-        print(torch.cuda.get_device_name(0))
  
     train_pipeline(config)

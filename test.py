@@ -1,6 +1,6 @@
 import torch
 import argparse
-from utils import load_config
+from utils import print_config
 from dataloader import get_dataloader
 from train import validate
 from models.baseline import GCN
@@ -8,10 +8,14 @@ from utils import set_seed
 
 def test_pipeline(model_path):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    
+
     checkpoint = torch.load(model_path, map_location=device)
 
     train_config = checkpoint['config']
+
+    if train_config['config_debug']:
+        print_config(train_config)
+    
     set_seed(train_config['seed'])
 
     _, _, test_loader, _ = get_dataloader(train_config)
