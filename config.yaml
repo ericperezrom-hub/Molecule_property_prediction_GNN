@@ -5,6 +5,6 @@ batch_size: 64
 target_idx: 4
 seed: 0
 patience: 15
+min_delta: 0.001
 
 gpu_debug: False
-min_delta: 0.001

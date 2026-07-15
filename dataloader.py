@@ -6,7 +6,6 @@ def get_dataloader(config):
     dataset = pyg.QM9('./QM9')
     n = len(dataset)
 
-    torch.manual_seed(config['seed'])
     dataset = dataset.shuffle()
 
     train_data = dataset[0:int(n*0.8)]

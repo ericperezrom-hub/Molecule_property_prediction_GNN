@@ -1,12 +1,16 @@
 import torch
 import wandb
-from utils import load_config
+from utils import load_config, set_seed, get_git_commit_hash
 from train import get_target_stats, train_one_epoch, validate
 from dataloader import get_dataloader
 from models.baseline import GCN
 
 def train_pipeline(config):
+    set_seed(config['seed'])
+
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+    config['git_commit'] = get_git_commit_hash()
 
     run = wandb.init(project="gnn-molecule-prediction", config=config)
 
@@ -35,7 +39,8 @@ def train_pipeline(config):
             torch.save({
                 'model_state_dict': model.state_dict(),
                 'mean': mean,
-                'std': std
+                'std': std,
+                'config': config
             }, model_path)
             early_stopping_count = 0
         else: 
