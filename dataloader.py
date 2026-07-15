@@ -13,8 +13,10 @@ def get_dataloader(config):
     val_data = dataset[int(n*0.8):int(n*0.9)]
     test_data = dataset[int(n*0.9):]
 
-    train_loader = DataLoader(train_data, batch_size=64, shuffle=True)
-    val_loader = DataLoader(val_data, batch_size=64, shuffle=False)
-    test_loader = DataLoader(test_data, batch_size=64, shuffle=False)
+    batch_size = config['batch_size']
+
+    train_loader = DataLoader(train_data, batch_size=batch_size, shuffle=True)
+    val_loader = DataLoader(val_data, batch_size=batch_size, shuffle=False)
+    test_loader = DataLoader(test_data, batch_size=batch_size, shuffle=False)
 
     return train_loader, val_loader, test_loader, train_data
