@@ -13,9 +13,11 @@ def print_config(config):
         print(f"{k}: {v}")
 
 def print_gpu_stats():
-    print(torch.cuda.is_available()) 
-    print(torch.cuda.current_device())
-    print(torch.cuda.get_device_name(0))
+    available = torch.cuda.is_available()
+    print(f"CUDA available: {available}")
+    if available:
+        print(torch.cuda.current_device())
+        print(torch.cuda.get_device_name(0))
     
 def get_git_commit_hash():
     # Saves which version of the code ran a experiment
