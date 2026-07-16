@@ -6,6 +6,7 @@ target_idx: 4
 seed: 0
 patience: 10
 min_delta: 0.001
+demo_project: "gnn-molecule-prediction-demos"
 
 gpu_debug: True
 config_debug: True

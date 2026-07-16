@@ -23,6 +23,8 @@ def train_pipeline(config):
     train_loader, val_loader, _, train_data = get_dataloader(config)
     
     mean, std = get_target_stats(train_data, config['target_idx'])
+    mean = mean.to(device)
+    std = std.to(device)
 
     model = GCN(num_node_features=11, hidden_dim=config['hidden_dim']).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=config['lr'])

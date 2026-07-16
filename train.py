@@ -41,6 +41,3 @@ def validate(model, loader, criterion, device, mean, std, target_idx):
             total_loss += loss.item() * batch.num_graphs
 
     return total_loss / len(loader.dataset)
-
-    
-            
