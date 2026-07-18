@@ -3,7 +3,7 @@ import argparse
 from utils import print_config
 from dataloader import get_dataloader
 from train import validate
-from models.baseline import GCN
+from models.factory import build_model
 from utils import set_seed
 
 def load_model_from_checkpoint(model_path):
@@ -13,7 +13,7 @@ def load_model_from_checkpoint(model_path):
 
     train_config = checkpoint['config']
 
-    model = GCN(num_node_features=11, hidden_dim=train_config['hidden_dim']).to(device)
+    model = build_model(train_config, device, num_node_features=11)
     model.load_state_dict(checkpoint['model_state_dict'])
     model.eval()
 

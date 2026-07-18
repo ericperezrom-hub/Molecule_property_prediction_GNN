@@ -3,7 +3,8 @@ import wandb
 from utils import load_config, set_seed, get_git_commit_hash, print_config, print_gpu_stats
 from train import get_target_stats, train_one_epoch, validate
 from dataloader import get_dataloader
-from models.baseline import GCN
+from models.factory import build_model
+
 
 def train_pipeline(config):
     if config['config_debug']:
@@ -26,7 +27,8 @@ def train_pipeline(config):
     mean = mean.to(device)
     std = std.to(device)
 
-    model = GCN(num_node_features=11, hidden_dim=config['hidden_dim']).to(device)
+    model = build_model(config, device, num_node_features=11)
+
     optimizer = torch.optim.Adam(model.parameters(), lr=config['lr'])
     criterion = torch.nn.L1Loss()
 
