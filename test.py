@@ -13,7 +13,9 @@ def load_model_from_checkpoint(model_path):
 
     train_config = checkpoint['config']
 
-    model = build_model(train_config, device, num_node_features=11)
+    _, _, test_loader, _, test_data, num_node_features = get_dataloader(train_config)
+
+    model = build_model(train_config, device, num_node_features=num_node_features)
     model.load_state_dict(checkpoint['model_state_dict'])
     model.eval()
 
@@ -25,7 +27,9 @@ def load_model_from_checkpoint(model_path):
         'mean': mean,
         'std': std,
         'device': device,
-        'config': train_config
+        'config': train_config,
+        'test_loader': test_loader,
+        'test_data': test_data
     }
 
 def test_pipeline(model_path):
@@ -35,10 +39,11 @@ def test_pipeline(model_path):
         print_config(bundle['config'])
 
     set_seed(bundle['config']['seed'])
-    _, _, test_loader, _ = get_dataloader(bundle['config'])
 
     criterion = torch.nn.L1Loss()
-    test_loss = validate(bundle['model'], test_loader, criterion, bundle['device'], bundle['mean'], bundle['std'], bundle['config']['target_idx'])
+    test_loss = validate(bundle['model'], bundle['test_loader'], criterion, 
+        bundle['device'], bundle['mean'], bundle['std'], bundle['config']['target_idx'])
+
     print(f"Test loss: {test_loss:.4f}")
 
 if __name__ == "__main__":

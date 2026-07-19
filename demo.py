@@ -6,7 +6,6 @@ from rdkit import Chem
 from rdkit.Chem import Draw
 from test import load_model_from_checkpoint
 from utils import set_seed
-from dataloader import get_dataloader
 
 def predict_all(model, loader, device, mean, std, target_idx):
     model.eval()
@@ -68,7 +67,11 @@ def log_demo_table(examples, test_data, config):
     for example in examples:
         sample = test_data[example['index']]
 
-        image = mol_to_image(sample.smiles)
+        try:
+            image = mol_to_image(sample.smiles)
+        except ValueError as e:
+            print(f"Skipping molecule: {e}")
+            continue
 
         table.add_data(
             wandb.Image(image),
@@ -87,14 +90,12 @@ def demo_pipeline(model_path, n=10, mode="random"):
 
     set_seed(bundle['config']['seed'])
 
-    _, _, test_loader, _ = get_dataloader(bundle['config'])
-
-    results = predict_all(bundle['model'], test_loader, bundle['device'],
+    results = predict_all(bundle['model'], bundle['test_loader'], bundle['device'],
                         bundle['mean'], bundle['std'], bundle['config']['target_idx'])
 
     examples = select_examples(results, n=n, mode=mode)
 
-    log_demo_table(examples, test_loader.dataset, bundle['config'])
+    log_demo_table(examples, bundle['test_data'], bundle['config'])
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

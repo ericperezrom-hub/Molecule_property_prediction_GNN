@@ -5,7 +5,6 @@ from train import get_target_stats, train_one_epoch, validate
 from dataloader import get_dataloader
 from models.factory import build_model
 
-
 def train_pipeline(config):
     if config['config_debug']:
         print_config(config)
@@ -21,13 +20,13 @@ def train_pipeline(config):
 
     run = wandb.init(project="gnn-molecule-prediction", config=config)
 
-    train_loader, val_loader, _, train_data = get_dataloader(config)
+    train_loader, val_loader, _, train_data, _, num_node_features = get_dataloader(config)
     
     mean, std = get_target_stats(train_data, config['target_idx'])
     mean = mean.to(device)
     std = std.to(device)
 
-    model = build_model(config, device, num_node_features=11)
+    model = build_model(config, device, num_node_features=num_node_features)
 
     optimizer = torch.optim.Adam(model.parameters(), lr=config['lr'])
     criterion = torch.nn.L1Loss()
