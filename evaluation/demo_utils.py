@@ -56,7 +56,7 @@ def mol_to_image(smiles):
     return rep
     
 def log_demo_table(examples, test_data, config):
-    wandb.init(project= config['demo_project'], config=config)
+    wandb.init(project= config['logging']['demo_project'], config=config)
 
     table = wandb.Table(columns = ["molecule", "smiles", "prediction", 
                                    "ground_truth", "error"])

@@ -6,10 +6,10 @@ from evaluation.demo_utils import predict_all, select_examples, log_demo_table
 def demo_pipeline(model_path, n=10, mode="random"):
     bundle = load_model_from_checkpoint(model_path)
 
-    set_seed(bundle['config']['seed'])
+    set_seed(bundle['config']['data']['seed'])
 
     results = predict_all(bundle['model'], bundle['test_loader'], bundle['device'],
-                        bundle['mean'], bundle['std'], bundle['config']['target_idx'])
+                        bundle['mean'], bundle['std'], bundle['config']['data']['target_idx'])
 
     examples = select_examples(results, n=n, mode=mode)
 

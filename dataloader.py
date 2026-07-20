@@ -17,7 +17,7 @@ def load_split_data(config):
 def get_dataloader(config):
     train_data, val_data, test_data, num_node_features = load_split_data(config)
 
-    batch_size = config['batch_size']
+    batch_size = config['data']['batch_size']
     train_loader = DataLoader(train_data, batch_size=batch_size, shuffle=True)
     val_loader = DataLoader(val_data, batch_size=batch_size, shuffle=False)
     test_loader = DataLoader(test_data, batch_size=batch_size, shuffle=False)

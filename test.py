@@ -7,14 +7,15 @@ from evaluation.load_model import load_model_from_checkpoint
 def test_pipeline(model_path):
     bundle = load_model_from_checkpoint(model_path)
     
-    if bundle['config']['config_debug']:
+    if bundle['config']['logging']['config_debug']:
         print_config(bundle['config'])
 
-    set_seed(bundle['config']['seed'])
+    # From the bundle, use config -> logging options -> seed
+    set_seed(bundle['config']['data']['seed'])
 
     criterion = torch.nn.L1Loss()
     test_loss = validate(bundle['model'], bundle['test_loader'], criterion, 
-        bundle['device'], bundle['mean'], bundle['std'], bundle['config']['target_idx'])
+        bundle['device'], bundle['mean'], bundle['std'], bundle['config']['data']['target_idx'])
 
     print(f"Test loss: {test_loss:.4f}")
 

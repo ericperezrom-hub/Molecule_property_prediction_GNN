@@ -5,7 +5,7 @@ MODEL_REGISTRY = {
 }
 
 def build_model(config, device, num_node_features):
-    model_type = config['model_type']
+    model_type = config['model']['model_type']
 
     model_class = MODEL_REGISTRY.get(model_type)
 
@@ -13,6 +13,6 @@ def build_model(config, device, num_node_features):
         raise ValueError(f"Unknown model_type: '{model_type}'. Available: {list(MODEL_REGISTRY.keys())}")
     
     else:
-        model = model_class(num_node_features, config['num_layers'], config['hidden_dim'])
+        model = model_class(num_node_features, config['model']['num_layers'], config['model']['hidden_dim'])
 
     return model.to(device)

@@ -9,10 +9,17 @@ def load_config(path):
         return yaml.safe_load(f)
     
 def print_config(config):
-    for k, v in config.items():
-        print(f"{k}: {v}")
+    print("\nUSED CONFIGURATION:")
+    for section, values in config.items():
+        if isinstance(values, dict):
+            print(f"{section}:")
+            for k, v in values.items():
+                print(f"  {k}: {v}")
+        else:
+            print(f"{section}: {values}")
 
 def print_gpu_stats():
+    print("\nGPU STATS:")
     available = torch.cuda.is_available()
     print(f"CUDA available: {available}")
     if available:

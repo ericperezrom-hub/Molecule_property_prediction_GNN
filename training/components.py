@@ -18,14 +18,14 @@ def build_training_components(config, device, num_node_features):
         num_node_features=num_node_features,
     )
 
-    optimizer_class = OPTIMIZER_REGISTRY.get(config['optimizer_type'])
+    optimizer_class = OPTIMIZER_REGISTRY.get(config['training']['optimizer_type'])
     if optimizer_class is None:
-        raise ValueError(f"Unknown optimizer_type: '{config['optimizer_type']}'. Available: {list(OPTIMIZER_REGISTRY.keys())}")
-    optimizer = optimizer_class(model.parameters(), lr=config['lr'])
+        raise ValueError(f"Unknown optimizer_type: '{config['training']['optimizer_type']}'. Available: {list(OPTIMIZER_REGISTRY.keys())}")
+    optimizer = optimizer_class(model.parameters(), lr=config['training']['lr'])
 
-    criterion_class = CRITERION_REGISTRY.get(config['criterion_type'])
+    criterion_class = CRITERION_REGISTRY.get(config['training']['criterion_type'])
     if criterion_class is None:
-        raise ValueError(f"Unknown criterion_type: '{config['criterion_type']}'. Available: {list(CRITERION_REGISTRY.keys())}")
+        raise ValueError(f"Unknown criterion_type: '{config['training']['criterion_type']}'. Available: {list(CRITERION_REGISTRY.keys())}")
     criterion = criterion_class()
 
     return model, optimizer, criterion
