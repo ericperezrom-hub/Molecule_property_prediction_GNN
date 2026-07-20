@@ -3,9 +3,12 @@ from torch_geometric.loader import DataLoader
 
 def load_split_data(config):
     dataset = pyg.QM9('./QM9')
-    n = len(dataset)
     dataset = dataset.shuffle()
 
+    if config['data']['data_debug']:
+        dataset = dataset[:config['data']['size_debug']]
+    
+    n = len(dataset)
     train_data = dataset[0:int(n*0.8)]
     val_data = dataset[int(n*0.8):int(n*0.9)]
     test_data = dataset[int(n*0.9):]

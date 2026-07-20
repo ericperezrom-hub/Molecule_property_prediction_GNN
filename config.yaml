@@ -2,6 +2,8 @@ data:
   batch_size: 64
   target_idx: 4
   seed: 0
+  data_debug: False
+  size_debug: 500
 
 model:
   model_type: "gcn"

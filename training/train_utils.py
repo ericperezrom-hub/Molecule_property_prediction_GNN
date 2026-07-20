@@ -1,11 +1,13 @@
 import torch
 import wandb
-from utils import set_seed, get_git_commit_hash, print_config, print_gpu_stats
+from utils import set_seed, get_git_commit_hash, print_config, print_gpu_stats, validate_config
 from training.loop import get_target_stats, train_one_epoch, validate
 from dataloader import get_dataloader
 import copy
 
 def setup_environment(config):
+    validate_config(config)
+
     config = copy.deepcopy(config)
 
     if config['logging']['config_debug']:
