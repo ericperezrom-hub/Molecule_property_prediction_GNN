@@ -13,3 +13,6 @@ num_layers: 2
 
 gpu_debug: True
 config_debug: True
+
+optimizer_type: "adam"
+criterion_type: "l1"
