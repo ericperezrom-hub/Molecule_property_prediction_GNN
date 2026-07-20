@@ -9,7 +9,7 @@ model:
   num_layers: 2
 
 training:
-  n_epochs: 2
+  n_epochs: 50
   lr: 0.001
   patience: 10
   min_delta: 0.001

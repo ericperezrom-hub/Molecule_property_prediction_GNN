@@ -4,6 +4,13 @@ import random
 import torch
 import numpy as np
 
+REQUIRED_CONFIG = {
+    "data": ["batch_size", "target_idx", "seed"],
+    "model": ["model_type", "hidden_dim", "num_layers"],
+    "training": ["n_epochs", "lr", "patience", "min_delta", "optimizer_type", "criterion_type"],
+    "logging": ["demo_project", "gpu_debug", "config_debug"],
+}
+
 def load_config(path):
     with open(path, "r") as f:
         return yaml.safe_load(f)
@@ -25,7 +32,22 @@ def print_gpu_stats():
     if available:
         print(torch.cuda.current_device())
         print(torch.cuda.get_device_name(0))
-    
+
+def validate_config(config):
+    missing = []
+
+    for section, keys in REQUIRED_CONFIG.items():
+        if section not in config:
+            missing.append(section)
+            continue
+
+        for key in keys:
+            if key not in config[section]:
+                missing.append(f"{section}.{key}")
+
+    if missing:
+        raise ValueError(f"Missing config keys: {missing}")
+
 def get_git_commit_hash():
     # Saves which version of the code ran a experiment
     # A experiment can be run in that version using `git checkout <hash>`
