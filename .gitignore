@@ -1,0 +1,29 @@
+# Dataset
+QM9/
+
+# Weights and biases 
+wandb/
+
+# Model checkpoints
+*.pt
+*.pth
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Environment variables / secrets
+.env
