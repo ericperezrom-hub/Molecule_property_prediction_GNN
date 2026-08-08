@@ -30,6 +30,18 @@ python test.py --model_path <path>
 python demo.py --model_path <path> --n <n> --mode <mode>
 ```
 
+### Cleanup model checkpoints
+
+List and interactively delete checkpoints (asks for confirmation):
+
+```
+python scripts/cleanup_checkpoints.py
+```
+
+Optional flags:
+- `--all`: delete all checkpoints instead of selecting indices interactively
+- `--force`: skip the confirmation prompt
+
 ## Pipeline overview
 
 The project follows a modular pipeline:
@@ -53,7 +65,8 @@ and evaluation.
 ├── training/                       # training loop, optimizer/criterion setup
 ├── evaluation/                     # checkpoint loading, demo utilities
 ├── models/                         # model architectures + factory
-└── tests/                          # unit tests
+├── tests/                          # unit tests
+└── scripts/                        # utility scripts for project maintenance              
 ```
 ## Configuration
 
