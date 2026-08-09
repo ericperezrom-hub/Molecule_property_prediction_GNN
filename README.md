@@ -30,6 +30,18 @@ python test.py --model_path <path>
 python demo.py --model_path <path> --n <n> --mode <mode>
 ```
 
+### Cross-validation
+
+```
+python kfold.py --k <n>
+```
+
+### Run tests
+
+```
+pytest tests/
+```
+
 ### Cleanup model checkpoints
 
 List and interactively delete checkpoints (asks for confirmation):
@@ -60,13 +72,16 @@ and evaluation.
 
 ```
 ├── train.py / test.py / demo.py   # entry points
+├── kfold.py                        # cross-validation entry point
 ├── config.yaml                     # experiment configuration
-├── dataloader.py
+├── requirements.txt                # pinned dependencies
+├── utils.py                        # shared helpers (config loading/validation, seeding, git tracking)
+├── dataloader.py                   # dataset loading and splitting
 ├── training/                       # training loop, optimizer/criterion setup
-├── evaluation/                     # checkpoint loading, demo utilities
+├── evaluation/                     # checkpoint loading, baseline comparison, demo utilities, k-fold logic
 ├── models/                         # model architectures + factory
 ├── tests/                          # unit tests
-└── scripts/                        # utility scripts for project maintenance              
+└── scripts/                        # utility scripts for project maintenance            
 ```
 ## Configuration
 

@@ -4,6 +4,9 @@ def log_test_results(test_loss, baseline_error):
     wandb.log({"test_loss": test_loss, "baseline_error": baseline_error})
 
 def compute_trivial_baseline(test_data, mean, target_idx, device):
+    # Compute the trivial baseline error, 
+    # which is the mean absolute error of predicting the mean value for all samples.
+
     # We move y_real to the device to be consistent
     # with the rest of the pipeline since mean/std
     # already live on GPU after loading the checkpoint

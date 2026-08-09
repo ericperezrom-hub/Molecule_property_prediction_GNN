@@ -1,8 +1,12 @@
 import torch
-
+""""
 def get_target_stats(train_data, target_idx=4):
     train_data_gaps = train_data.y[:, target_idx]
     return train_data_gaps.mean(), train_data_gaps.std()
+"""
+def get_target_stats(train_data, target_idx=4):
+    gaps = torch.stack([sample.y[0, target_idx] for sample in train_data])
+    return gaps.mean(), gaps.std()
     
 def train_one_epoch(model, loader, optimizer, criterion, device, mean, std, target_idx):
     total_loss = 0
