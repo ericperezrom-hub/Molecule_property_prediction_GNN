@@ -32,7 +32,7 @@ def test_pipeline(model_path):
     print(f"Test loss: {test_loss:.4f}")
     print(f"Baseline error: {baseline_error:.4f}")
 
-    log_test_results(test_loss, baseline_error, run)
+    log_test_results(test_loss, baseline_error)
     
     wandb.finish()
 
