@@ -1,3 +1,5 @@
+Note: This README file is not updated!
+
 # Molecule_property_prediction_GNN
 
 This project builds a graph neural network to predict molecular

@@ -1,6 +1,6 @@
 import copy
 import json
-from train import train_pipeline
+from scripts.train import train_pipeline
 from utils import load_config, validate_config
 
 def run_multiple(base_config, n_epochs, n_runs=5):

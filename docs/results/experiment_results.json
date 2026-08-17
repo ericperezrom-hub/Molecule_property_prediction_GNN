@@ -1,0 +1,56 @@
+{
+  "50_epochs": [
+    {
+      "weight_seed": 0,
+      "model_path": "best_model_mkzfwjnm.pt",
+      "best_val_loss": 0.48494479774991406
+    },
+    {
+      "weight_seed": 1,
+      "model_path": "best_model_jtpfrkxq.pt",
+      "best_val_loss": 0.45444611585314265
+    },
+    {
+      "weight_seed": 2,
+      "model_path": "best_model_0izr1g9c.pt",
+      "best_val_loss": 0.46770655397682537
+    },
+    {
+      "weight_seed": 3,
+      "model_path": "best_model_d1600068.pt",
+      "best_val_loss": 0.4777235784662214
+    },
+    {
+      "weight_seed": 4,
+      "model_path": "best_model_p57ccrep.pt",
+      "best_val_loss": 0.47582501332247595
+    }
+  ],
+  "200_epochs": [
+    {
+      "weight_seed": 0,
+      "model_path": "best_model_bu3cm7q6.pt",
+      "best_val_loss": 0.4256470172351301
+    },
+    {
+      "weight_seed": 1,
+      "model_path": "best_model_3g4h0w6o.pt",
+      "best_val_loss": 0.4326482516271591
+    },
+    {
+      "weight_seed": 2,
+      "model_path": "best_model_u6mai8lj.pt",
+      "best_val_loss": 0.41188305379244966
+    },
+    {
+      "weight_seed": 3,
+      "model_path": "best_model_acx8ptb1.pt",
+      "best_val_loss": 0.43216065488067196
+    },
+    {
+      "weight_seed": 4,
+      "model_path": "best_model_i16q7ldp.pt",
+      "best_val_loss": 0.38602893461895343
+    }
+  ]
+}

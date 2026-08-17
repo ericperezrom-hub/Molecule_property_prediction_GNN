@@ -1,7 +1,7 @@
 import argparse
 from utils import set_seed
-from evaluation.load_model import load_model_from_checkpoint
-from evaluation.demo_utils import predict_all, select_examples, log_demo_table
+from evaluation.checkpoint import load_model_from_checkpoint
+from analysis.demo_utils import predict_all, select_examples, log_demo_table
 
 def demo_pipeline(model_path, n=10, mode="random"):
     bundle = load_model_from_checkpoint(model_path)

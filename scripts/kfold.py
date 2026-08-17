@@ -1,6 +1,6 @@
 import argparse
 from utils import load_config, validate_config
-from evaluation.kfold_utils import run_kfold
+from evaluation.kfold import run_kfold
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
