@@ -1,7 +1,7 @@
 import torch
 import wandb
 import argparse
-from utils import print_config, set_seed
+from utils import print_config
 from training.loop import validate
 from evaluation.load_model import load_model_from_checkpoint
 from evaluation.test_utils import compute_trivial_baseline, log_test_results
@@ -11,9 +11,6 @@ def test_pipeline(model_path):
     
     if bundle['config']['logging']['config_debug']:
         print_config(bundle['config'])
-
-    # From the bundle, use config -> logging options -> seed
-    set_seed(bundle['config']['data']['seed'])
 
     criterion = torch.nn.L1Loss()
 

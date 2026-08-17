@@ -1,7 +1,7 @@
 data:
   batch_size: 64
   target_idx: 4
-  seed: 0
+  split_seed: 0
   data_debug: False
   size_debug: 500
 
@@ -9,11 +9,12 @@ model:
   model_type: "gcn"
   hidden_dim: 64
   num_layers: 2
+  weight_seed: 0
 
 training:
   n_epochs: 200
   lr: 0.001
-  patience: 10
+  patience: 15
   min_delta: 0.001
   optimizer_type: "adam"
   criterion_type: "l1"
@@ -21,4 +22,4 @@ training:
 logging:
   demo_project: "gnn-molecule-prediction-demos"
   gpu_debug: True
-  config_debug: True
+  config_debug: True 

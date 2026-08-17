@@ -1,7 +1,10 @@
+import torch
 import torch_geometric.datasets as pyg
 from torch_geometric.loader import DataLoader
 
 def load_split_data(config):
+    torch.manual_seed(config['data']['split_seed'])
+
     dataset = pyg.QM9('./QM9')
     dataset = dataset.shuffle()
 

@@ -9,6 +9,8 @@ from training.loop import get_target_stats
 from utils import get_git_commit_hash
 
 def load_split_data_kfold(config, k):
+    torch.manual_seed(config['data']['split_seed'])
+    
     dataset = pyg.QM9('./QM9')
     dataset = dataset.shuffle()
 
@@ -55,7 +57,8 @@ def run_kfold(config, k=5):
 
         run = wandb.init(project="gnn-molecule-prediction-kfold", config=config, group=f"kfold_{run_id}")
 
-        best_val_loss = train_and_validate(model, train_loader, val_loader, optimizer, criterion, device, mean, std, config['data']['target_idx'], config, run)
+        best_val_loss, model_path = train_and_validate(model, train_loader, val_loader, optimizer, 
+                                                        criterion, device, mean, std, config['data']['target_idx'], config, run)
 
         wandb.finish()
 

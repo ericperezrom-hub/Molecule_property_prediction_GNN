@@ -11,11 +11,12 @@ OPTIMIZER_REGISTRY = {
     "sgd": torch.optim.SGD,
 }
 
-def build_training_components(config, device, num_node_features):
+def build_training_components(config, device, num_node_features, weight_seed=None):
     model = build_model(
         config,
         device,
         num_node_features=num_node_features,
+        weight_seed=weight_seed
     )
 
     optimizer_class = OPTIMIZER_REGISTRY.get(config['training']['optimizer_type'])

@@ -13,8 +13,6 @@ def setup_environment(config):
     if config['logging']['config_debug']:
         print_config(config)
 
-    set_seed(config['data']['seed'])
-
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     if config['logging']['gpu_debug']:
@@ -58,6 +56,7 @@ def train_and_validate(model, train_loader, val_loader, optimizer, criterion,
                 'std': std,
                 'config': config
             }, model_path)
+            best_model_path = model_path
             early_stopping_count = 0
         else:
             early_stopping_count += 1
@@ -67,4 +66,4 @@ def train_and_validate(model, train_loader, val_loader, optimizer, criterion,
         if early_stopping_count >= config['training']['patience']:
             break
 
-    return best_val_loss
+    return best_val_loss, best_model_path

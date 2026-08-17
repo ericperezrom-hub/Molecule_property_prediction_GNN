@@ -5,8 +5,8 @@ import torch
 import numpy as np
 
 REQUIRED_CONFIG = {
-    "data": ["batch_size", "target_idx", "seed"],
-    "model": ["model_type", "hidden_dim", "num_layers"],
+    "data": ["batch_size", "target_idx", "split_seed"],
+    "model": ["model_type", "hidden_dim", "num_layers", "weight_seed"],
     "training": ["n_epochs", "lr", "patience", "min_delta", "optimizer_type", "criterion_type"],
     "logging": ["demo_project", "gpu_debug", "config_debug"],
 }

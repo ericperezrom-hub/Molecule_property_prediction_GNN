@@ -1,7 +1,6 @@
 import torch
 from models.factory import build_model
 from dataloader import get_dataloader
-from utils import set_seed
 
 def load_model_from_checkpoint(model_path):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -9,9 +8,6 @@ def load_model_from_checkpoint(model_path):
     checkpoint = torch.load(model_path, map_location=device)
 
     train_config = checkpoint['config']
-
-    # From the bundle, use config -> logging options -> seed
-    set_seed(train_config['data']['seed'])
 
     _, _, test_loader, _, test_data, num_node_features = get_dataloader(train_config)
 
