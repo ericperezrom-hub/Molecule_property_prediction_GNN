@@ -3,6 +3,8 @@ import subprocess
 import random
 import torch
 import numpy as np
+from rdkit import Chem
+from rdkit.Chem import rdMolDescriptors
 
 REQUIRED_CONFIG = {
     "data": ["batch_size", "target_idx", "split_seed"],
@@ -66,3 +68,26 @@ def set_seed(seed):
     np.random.seed(seed)
     torch.manual_seed(seed)
     torch.cuda.manual_seed_all(seed)
+
+def extract_global_features(data):
+    X = []
+    valid_indices = []
+    
+    for i, mol in enumerate(data):
+        mol_rdkit = Chem.MolFromSmiles(mol.smiles)
+        if mol_rdkit is None:
+            continue   
+
+        atom_count = mol.x[:, :5].sum(dim=0)
+        num_atoms = mol.x.shape[0]
+        num_bonds = mol.edge_index.shape[1] // 2
+        num_rings = rdMolDescriptors.CalcNumRings(mol_rdkit)
+        aromaticity = any(atom.GetIsAromatic() for atom in mol_rdkit.GetAtoms())
+        molecular_weight = rdMolDescriptors.CalcExactMolWt(mol_rdkit)
+
+        features = torch.cat([atom_count, torch.tensor([num_atoms, num_bonds, num_rings, aromaticity, molecular_weight])])
+        X.append(features)
+        valid_indices.append(i)
+
+    X = torch.stack(X)
+    return X, valid_indices
