@@ -281,8 +281,8 @@ combination of structural and chemical factors.
   200 epochs allowed convergence at epoch 122, improving test MAE from
   0.4750 to 0.4168.
 
-- 200-epoch model may have a higher standard deviation due to the usage of
-  early stopping.
+- 200-epoch model may have a higher standard deviation when comparing different initializations
+  due to the usage of early stopping.
 
 ## Change log
 

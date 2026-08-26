@@ -1,44 +1,104 @@
-Note: This README file is not updated!
+# Molecule Property Prediction with Graph Neural Networks
 
-# Molecule_property_prediction_GNN
+## Overview 
 
-This project builds a graph neural network to predict molecular
-properties (currently the HOMO-LUMO gap) from the QM9 dataset. The
-long-term goal is an interpretable predictor, benchmarked against
-classical baselines and multiple GNN architectures.
+This project implements a Graph Neural Networks (GNN) to predict the
+HOMO-LUMO energy gap of molecules from the QM9 dataset.
+
+Molecules are represented as graphs, where atoms correspond to nodes and bonds
+correspond to edges. The project includes training, evaluation, cross-validation,
+classical machine learning baselines, and an analysis of prediction errors.
+
+The current implementation focuses on a GCN and compares its performance
+against trivial, linear regression, and random forest baselines based on global
+molecular descriptors.
+
+## Results
+
+The current best model is a 2-layer Graph Convolutional Network (GCN) with a
+hidden dimension of 64, trained for up to 200 epochs with early stopping.
+
+The final result, evaluated across five independent model initializations, is:
+
+| Metric | Result |
+|---|---:|
+| Test MAE | 0.4177 ± 0.0196 eV |
+| 5-fold CV MAE (50 epochs) | 0.4676 ± 0.0149 eV |
+| Trivial baseline MAE | 1.0674 eV |
+| Linear regression baseline MAE | 0.7427 eV |
+| Random forest baseline MAE | 0.4911 eV |
+
+The GCN substantially outperforms the trivial and linear baselines and achieves
+a moderate improvement over the random forest baseline based on global
+molecular descriptors.
+
+Prediction errors were analysed across multiple dimensions, including molecular
+size, heteroatom count, chemical families, functional groups, and independent
+model initializations.
+
+The analysis suggests that prediction difficulty is primarily
+molecule-dependent rather than driven by random model initialization. Broad
+structural descriptors alone do not fully explain prediction difficulty, while
+some oxygen-containing and carbonyl-related functional groups show a modest
+association with higher prediction errors.
+
+See [`results.md`](results.md) for the complete analysis.
 
 ## Installation
 
-pip install torch --index-url https://download.pytorch.org/whl/cu121
+Clone the repository:
+
+```bash
+git clone <repository-url>
+cd Molecule_property_prediction_GNN
+```
+
+Install the project dependencies:
+
 pip install -r requirements.txt
 
 ## Usage
 
-### Train
+### Train a model
 
 ```
-python train.py
+python scrpits/train.py
 ```
 
-### Evaluate
+Loads data and uses it to train a brand new model.
+This instruction generate a `.pt` checkpoint which can be evaluated later.
+
+### Train multiple models
 
 ```
-python test.py --model_path <path>
+python scripts/run_experiments.py
 ```
 
-### Demo
+### Evaluate a model
 
 ```
-python demo.py --model_path <path> --n <n> --mode <mode>
+python scripts/test.py --model_path <path>
 ```
 
-### Cross-validation
+### Build a demo for a model
 
 ```
-python kfold.py --k <n>
+python scripts/demo.py --model_path <path> --n <n> --mode <mode>
 ```
 
-### Run tests
+### Cross-validation (used for checking that models are similar when using different data splits)
+
+```
+python scripts/kfold.py --k <n>
+```
+
+### Run classical baselines and print results
+
+```
+python scripts/classical_baselines.py --k <n>
+```
+
+### Run unit tests
 
 ```
 pytest tests/
@@ -56,43 +116,31 @@ Optional flags:
 - `--all`: delete all checkpoints instead of selecting indices interactively
 - `--force`: skip the confirmation prompt
 
-## Pipeline overview
-
-The project follows a modular pipeline:
-
-**Shared components**: `dataloader.py` (QM9 loading and splitting) and
-`models/` (configurable GNN architectures) are used by both training
-and evaluation.
-
-**Training** (`training/`): training loop with early stopping, W&B logging,
-   and checkpointing (model weights + normalization stats + config saved together).
-
-**Evaluation** (`evaluation/`): loads a checkpoint and reproduces the exact
-   training configuration for testing or generating a demo.
-
-## Project structure
-
-```
-├── train.py / test.py / demo.py   # entry points
-├── kfold.py                        # cross-validation entry point
-├── config.yaml                     # experiment configuration
-├── requirements.txt                # pinned dependencies
-├── utils.py                        # shared helpers (config loading/validation, seeding, git tracking)
-├── dataloader.py                   # dataset loading and splitting
-├── training/                       # training loop, optimizer/criterion setup
-├── evaluation/                     # checkpoint loading, baseline comparison, demo utilities, k-fold logic
-├── models/                         # model architectures + factory
-├── tests/                          # unit tests
-└── scripts/                        # utility scripts for project maintenance            
-```
 ## Configuration
 
 Experiments are configured via `config.yaml`, organized into sections:
-`data`, `model`, `training`, `logging`. Example:
+`data`, `model`, `training`, `logging`. 
 
-```yaml
-model:
-  model_type: "gcn"
-  hidden_dim: 64
-  num_layers: 2
+## Project structure
+
+
+├── requirements.txt             # Project dependencies
+├── utils.py                     # General utilites for seedingm gut tracking
+├── dataloader.py                # Dataset loading and splitting
+├── config.yaml                  # Experiment configuration
+├── analysis/                    # Utilities for error analysis abnd demos
+├── docs/                        # Project documentation and detailed result
+├── evaluation/                  # Checkpoint loading, baseline comparasion, k-fold logic
+├── models/                      # Model architectures + factory
+├── notebooks/                   # Exploratory analysis and experiment notebooks
+├── scripts/                     # Executable pipelines
+├── tests/                       # Unit tests
+└── training/                    # Training loop, optimizer/criterion setup           
 ```
+
+## Future work
+
+- Implement edge features and global features into a GNN model
+- Try other types of GNNs, such as GAT, GIN or Transformers
+- Implement hyperparameter search
+- Make a interpretability analysis
