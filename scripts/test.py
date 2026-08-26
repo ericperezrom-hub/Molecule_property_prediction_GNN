@@ -4,7 +4,7 @@ import argparse
 from utils import print_config
 from training.loop import validate
 from evaluation.checkpoint import load_model_from_checkpoint
-from evaluation.baseline import compute_trivial_baseline, log_test_results
+from evaluation.baselines import compute_trivial_baseline, log_test_results
 
 def test_pipeline(model_path):
     bundle = load_model_from_checkpoint(model_path)
