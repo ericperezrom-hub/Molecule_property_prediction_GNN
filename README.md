@@ -55,18 +55,20 @@ cd Molecule_property_prediction_GNN
 
 Install the project dependencies:
 
+```
 pip install -r requirements.txt
+```
 
 ## Usage
 
 ### Train a model
 
 ```
-python scrpits/train.py
+python scripts/train.py
 ```
 
-Loads data and uses it to train a brand new model.
-This instruction generate a `.pt` checkpoint which can be evaluated later.
+Loads the dataset and trains a new model.
+This command generates a .pt checkpoint that can be evaluated later.
 
 ### Train multiple models
 
@@ -95,7 +97,7 @@ python scripts/kfold.py --k <n>
 ### Run classical baselines and print results
 
 ```
-python scripts/classical_baselines.py --k <n>
+python scripts/classical_baselines.py 
 ```
 
 ### Run unit tests
@@ -123,20 +125,23 @@ Experiments are configured via `config.yaml`, organized into sections:
 
 ## Project structure
 
+## Project structure
 
+```text
 ├── requirements.txt             # Project dependencies
-├── utils.py                     # General utilites for seedingm gut tracking
+├── utils.py                     # General utilities for seeding and Git tracking
 ├── dataloader.py                # Dataset loading and splitting
 ├── config.yaml                  # Experiment configuration
-├── analysis/                    # Utilities for error analysis abnd demos
-├── docs/                        # Project documentation and detailed result
-├── evaluation/                  # Checkpoint loading, baseline comparasion, k-fold logic
-├── models/                      # Model architectures + factory
+├── analysis/                    # Utilities for error analysis and demos
+├── docs/                        # Project documentation and detailed results
+├── evaluation/                  # Checkpoint loading, baseline comparison, and k-fold logic
+├── models/                      # Model architectures and model factory
 ├── notebooks/                   # Exploratory analysis and experiment notebooks
 ├── scripts/                     # Executable pipelines
 ├── tests/                       # Unit tests
-└── training/                    # Training loop, optimizer/criterion setup           
+└── training/                    # Training loop, optimizer, and criterion setup
 ```
+
 
 ## Future work
 
