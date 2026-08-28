@@ -1,8 +1,10 @@
 import torch
 from models.gcn import GCN
+from models.gineconv import GINE
 
 MODEL_REGISTRY = {
-    "gcn": GCN
+    "gcn": GCN,
+    "gineconv": GINE,
 }
 
 def build_model(config, device, num_node_features, weight_seed=None):
