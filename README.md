@@ -100,12 +100,6 @@ python scripts/kfold.py --k <n>
 python scripts/classical_baselines.py 
 ```
 
-### Run unit tests
-
-```
-pytest tests/
-```
-
 ### Cleanup model checkpoints
 
 List and interactively delete checkpoints (asks for confirmation):
@@ -125,8 +119,6 @@ Experiments are configured via `config.yaml`, organized into sections:
 
 ## Project structure
 
-## Project structure
-
 ```text
 ├── requirements.txt             # Project dependencies
 ├── utils.py                     # General utilities for seeding and Git tracking
@@ -138,14 +130,12 @@ Experiments are configured via `config.yaml`, organized into sections:
 ├── models/                      # Model architectures and model factory
 ├── notebooks/                   # Exploratory analysis and experiment notebooks
 ├── scripts/                     # Executable pipelines
-├── tests/                       # Unit tests
 └── training/                    # Training loop, optimizer, and criterion setup
 ```
 
-
 ## Future work
 
-- Implement edge features and global features into a GNN model
-- Try other types of GNNs, such as GAT, GIN or Transformers
-- Implement hyperparameter search
-- Make a interpretability analysis
+* Implement edge and global features in the GNN model.
+* Experiment with other GNN architectures, such as GAT, GIN, and Graph Transformers.
+* Implement systematic hyperparameter search.
+* Perform an interpretability analysis.
