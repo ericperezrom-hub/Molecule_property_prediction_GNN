@@ -6,10 +6,11 @@ data:
   size_debug: 500
 
 model:
-  model_type: "gineconv"
+  model_type: "gat"
   hidden_dim: 64
   num_layers: 2
   weight_seed: 0
+  num_heads: 4
 
 training:
   n_epochs: 200
