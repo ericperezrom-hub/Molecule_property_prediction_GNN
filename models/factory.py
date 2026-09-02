@@ -3,12 +3,14 @@ from models.gcn import GCN
 from models.gineconv import GINE
 from models.gat import GAT
 from models.nnconv import MoleculeNNConv
+from models.schnet import MoleculeSchNetManual
 
 MODEL_REGISTRY = {
     "gcn": GCN,
     "gineconv": GINE,
     "gat": GAT,
-    "nnconv": MoleculeNNConv
+    "nnconv": MoleculeNNConv,
+    "schnet": MoleculeSchNetManual,
 }
 
 def build_model(config, device, num_node_features, weight_seed=None):
@@ -34,9 +36,11 @@ def build_model(config, device, num_node_features, weight_seed=None):
     if model_type == "gat":
         model_kwargs["heads"] = config['model']['num_heads']
 
-    model = model_class(
-        num_node_features,
-        **model_kwargs
-    )
+    if model_type == "schnet":
+        model_kwargs["cutoff"] = config['model'].get('cutoff', 10.0)
+        model_kwargs["num_gaussians"] = config['model'].get('num_gaussians', 50)
+        model = model_class(**model_kwargs)
+    else:
+        model = model_class(num_node_features, **model_kwargs)
 
     return model.to(device)

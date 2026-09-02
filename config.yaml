@@ -6,7 +6,7 @@ data:
   size_debug: 500
 
 model:
-  model_type: "nnconv"
+  model_type: "schnet"
   hidden_dim: 64
   num_layers: 2
   weight_seed: 0
