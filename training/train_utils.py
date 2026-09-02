@@ -1,9 +1,10 @@
 import torch
 import wandb
-from utils import set_seed, get_git_commit_hash, print_config, print_gpu_stats, validate_config
+import copy
+import os
+from utils import get_git_commit_hash, print_config, print_gpu_stats, validate_config
 from training.loop import get_target_stats, train_one_epoch, validate
 from dataloader import get_dataloader
-import copy
 
 def setup_environment(config):
     validate_config(config)
@@ -49,7 +50,11 @@ def train_and_validate(model, train_loader, val_loader, optimizer, criterion,
 
         if best_val_loss - val_loss > config['training']['min_delta']:
             best_val_loss = val_loss
-            model_path = f"best_model_{run.id}.pt"
+
+            model_type = config['model']['model_type']
+            os.makedirs(f"checkpoints/{model_type}", exist_ok=True)
+            model_path = f"checkpoints/{model_type}/model_{model_type}_{run.id}.pt"
+
             torch.save({
                 'model_state_dict': model.state_dict(),
                 'mean': mean,
